@@ -108,6 +108,7 @@ void findavgTime(Process proc[], int n)
     // details 
     cout << "Processes "
         << " Burst time "
+		<< " Arrival Time "
         << " Waiting time "
         << " Turn around time\n";
 
@@ -117,7 +118,7 @@ void findavgTime(Process proc[], int n)
         total_wt = total_wt + wt[i];
         total_tat = total_tat + tat[i];
         cout << " " << proc[i].pid << "\t\t"
-            << proc[i].bt << "\t\t " << wt[i]
+            << proc[i].bt << "\t\t" << proc[i].art << "\t\t " << wt[i]
             << "\t\t " << tat[i] << endl;
     }
 

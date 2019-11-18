@@ -82,10 +82,10 @@ void FCFS_function()
     int n = sizeof processes / sizeof processes[0];
 
     // Burst time of all processes 
-    int burst_time[] = { 5, 9, 6, 1, 3, 7 };
+    int burst_time[] = { 6, 8, 7, 13, 9, 10 };
 
     // Arrival time of all processes 
-    int arrival_time[] = { 0, 3, 6, 7, 10, 14 };
+    int arrival_time[] = { 1, 1, 2, 3, 7, 15 };
 
     findavgTime(processes, n, burst_time, arrival_time);
 }
