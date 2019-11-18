@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <algorithm>
 
 // to denote which thread will enter next 
 int favouredthread = 1;
@@ -16,13 +17,11 @@ bool wantInputValue = true;
 
 //CommonResource
 std::map<int, int> mapOfCoin;
-std::map<int, int> result;
 int inputValue;
-std::set<int> wantedCoin;
+int wantedCoin;
 
 void CheckMoney()
 {
-    int bufString;
     do {
 
         thread1wantstoenter = true;
@@ -60,17 +59,17 @@ void CheckMoney()
             std::cin >> inputValue;
             std::cout << "\nyou coin: " << inputValue;
             std::cout << "\ninput wanted coin: ";
-            while (std::cin >> bufString)
+            std::cin >> wantedCoin;
+
+            if (mapOfCoin.find(inputValue) != mapOfCoin.end() && mapOfCoin.find(wantedCoin) != mapOfCoin.end())
             {
-                wantedCoin.insert(bufString);
+                wantInputValue = false;
+                canBeChange = true;
             }
-            std::cout << "\nyou wanted coin: ";
-            for (auto it : wantedCoin)
+            else
             {
-                std::cout << it << " ";
+                std::cout << "You input wrong value\n";
             }
-            wantInputValue = false;
-            canBeChange = true;
         }
 
         // critical section 
@@ -115,8 +114,25 @@ void CoinChange()
         }
         if (canBeChange)
         {
-            ++mapOfCoin[inputValue];
-            
+            if (inputValue % wantedCoin)
+            {
+                std::cout << "Can not be change\n";
+            }
+            else
+            {
+                if (inputValue / wantedCoin <= mapOfCoin[wantedCoin])
+                {
+                    std::cout << "Can be change";
+                    mapOfCoin[wantedCoin] -= inputValue / wantedCoin;
+                    ++mapOfCoin[inputValue];
+                }
+                else
+                {
+                    std::cout << "Not have enough money\n";
+                }
+            }
+            canBeChange = false;
+            wantInputValue = true;
         }
         // critical section 
 
